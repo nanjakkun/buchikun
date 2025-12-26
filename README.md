@@ -1,6 +1,6 @@
-# buchikun
+# Buchikun
 
-A Rust library.
+A Rust library for converting handle Japanese/Okinawan language.
 
 ## Installation
 
@@ -14,8 +14,8 @@ buchikun = "0.1.0"
 ## Usage
 
 ```rust
-use buchikun::add;
+use buchikun::core::romaji_to_kana;
 
-let result = add(2, 2);
-assert_eq!(result, 4);
+let result = romaji_to_kana("konnichiha");
+assert_eq!(result, "こんにちは");
 ```
