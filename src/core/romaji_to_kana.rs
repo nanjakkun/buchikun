@@ -185,7 +185,7 @@ mod tests {
 
     #[test]
     fn test_basic() {
-        assert_eq!(romaji_to_kana("konnichiwa"), "こんにちは");
+        assert_eq!(romaji_to_kana("konnichiha"), "こんにちは");
         assert_eq!(romaji_to_kana("arigatou"), "ありがとう");
     }
 
