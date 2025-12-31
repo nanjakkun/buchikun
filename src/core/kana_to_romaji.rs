@@ -1,6 +1,7 @@
-/// Katakana to Romaji (Hepburn system).
+/// Convert Katakana to Romaji (Hepburn system).
 ///
 /// ヘボン式でカタカナをローマ字に変換します。
+/// https://ja.wikipedia.org/wiki/%E3%83%98%E3%83%9C%E3%83%B3%E5%BC%8F%E3%83%AD%E3%83%BC%E3%83%9E%E5%AD%97
 ///
 /// # Examples
 ///
@@ -12,9 +13,10 @@ pub fn kana_to_romaji_hepburn(input: &str) -> String {
     convert_kana_to_romaji(input, System::Hepburn)
 }
 
-/// Katakana to Romaji (Kunrei system).
+/// Convert Katakana to Romaji (Kunrei system).
 ///
 /// 訓令式でカタカナをローマ字に変換します。
+/// https://ja.wikipedia.org/wiki/%E3%83%AD%E3%83%BC%E3%83%9E%E5%AD%97#%E8%A8%93%E4%BB%A4%E5%BC%8F%E3%81%AE%E8%A1%A8
 ///
 /// # Examples
 ///
