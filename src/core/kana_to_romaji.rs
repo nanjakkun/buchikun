@@ -68,6 +68,23 @@ fn convert_kana_to_romaji(input: &str, system: System) -> String {
             }
         }
 
+        // Check for 'n' (ン) special case in Hepburn
+        if chars[i] == 'ン' {
+            if let System::Hepburn = system {
+                if i + 1 < chars.len() {
+                    let (next_romaji, _) = resolve_next_romaji(&chars[i + 1..], system);
+                    if next_romaji.starts_with('b')
+                        || next_romaji.starts_with('m')
+                        || next_romaji.starts_with('p')
+                    {
+                        result.push('m');
+                        i += 1;
+                        continue;
+                    }
+                }
+            }
+        }
+
         // Single char
         let romaji = get_single_romaji(chars[i], system);
         result.push_str(romaji);
@@ -425,7 +442,7 @@ mod tests {
 
     #[test]
     fn test_combo() {
-        assert_eq!(kana_to_romaji_hepburn("キャンパス"), "kyanpasu");
+        assert_eq!(kana_to_romaji_hepburn("キャンパス"), "kyampasu");
         assert_eq!(kana_to_romaji_hepburn("トウキョウ"), "toukyou");
 
         assert_eq!(kana_to_romaji_kunrei("キャンパス"), "kyanpasu");
@@ -440,5 +457,29 @@ mod tests {
     fn test_long_vowel() {
         assert_eq!(kana_to_romaji_hepburn("パーティー"), "pa-ti-");
         // My implementation maps 'ー' to '-' currently.
+    }
+
+    #[test]
+    fn test_hepburn_n_to_m() {
+        assert_eq!(kana_to_romaji_hepburn("ナンバ"), "namba");
+        assert_eq!(kana_to_romaji_hepburn("サンマ"), "samma");
+        assert_eq!(kana_to_romaji_hepburn("カンパイ"), "kampai");
+        assert_eq!(kana_to_romaji_hepburn("アンナイ"), "annai");
+        assert_eq!(kana_to_romaji_hepburn("カンイ"), "kani");
+
+        // Combo case
+        assert_eq!(kana_to_romaji_hepburn("コンピュ"), "kompyu"); // 'ピュ' -> pyu (starts with p)
+    }
+
+    #[test]
+    fn test_kunrei_n_keeps_n() {
+        assert_eq!(kana_to_romaji_kunrei("ナンバ"), "nanba");
+        assert_eq!(kana_to_romaji_kunrei("サンマ"), "sanma");
+        assert_eq!(kana_to_romaji_kunrei("カンパイ"), "kanpai");
+        assert_eq!(kana_to_romaji_kunrei("アンナイ"), "annai");
+        assert_eq!(kana_to_romaji_kunrei("カンイ"), "kani");
+
+        // Combo case
+        assert_eq!(kana_to_romaji_kunrei("コンピュ"), "konpyu");
     }
 }
