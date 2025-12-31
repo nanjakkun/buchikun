@@ -1,3 +1,13 @@
+/// Convert Romaji to Hiragana.
+///
+/// ローマ字をひらがなに変換します。
+///
+/// # Examples
+///
+/// ```
+/// use buchikun::core::romaji_to_kana::romaji_to_kana;
+/// assert_eq!(romaji_to_kana("konnichiha"), "こんにちは");
+/// ```
 pub fn romaji_to_kana(input: &str) -> String {
     let mut result = String::new();
 

@@ -19,3 +19,11 @@ use buchikun::core::romaji_to_kana;
 let result = romaji_to_kana("konnichiha");
 assert_eq!(result, "こんにちは");
 ```
+
+## Testing
+
+You can run the unit tests using `cargo test`:
+
+```bash
+cargo test
+```
