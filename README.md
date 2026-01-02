@@ -1,6 +1,8 @@
 # Buchikun
 
-A Rust library for converting handle Japanese/Okinawan language.
+A Rust library for converting handle Japanese language/Okinawan language.
+
+[日本語 (Japanese)](README.ja.md)
 
 ## Installation
 
@@ -27,3 +29,7 @@ You can run the unit tests using `cargo test`:
 ```bash
 cargo test
 ```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
