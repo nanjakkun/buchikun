@@ -15,7 +15,7 @@ use super::infer_conjugation_type::{ConjugationType, VerbError};
 /// Use as a function:
 /// ```
 /// use buchikun::ja::verb::infer_conjugation_type::ConjugationType;
-/// use buchikun::ja::verb::conjugate::get_irrealis_form;
+/// use buchikun::ja::verb::get_irrealis_form::get_irrealis_form;
 ///
 /// assert_eq!(get_irrealis_form("書く", ConjugationType::Godan), Ok("書か".to_string()));
 /// ```
