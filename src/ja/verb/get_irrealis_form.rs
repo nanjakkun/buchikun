@@ -1,4 +1,4 @@
-use super::guess_conjugation_type::{ConjugationType, VerbError};
+use super::infer_conjugation_type::{ConjugationType, VerbError};
 
 /// Conjugate a Japanese verb to its Irrealis form (Mizenkei).
 ///
@@ -14,8 +14,8 @@ use super::guess_conjugation_type::{ConjugationType, VerbError};
 ///
 /// Use as a function:
 /// ```
-/// use buchikun::ja::verb::guess_conjugation_type::ConjugationType;
-/// use buchikun::ja::verb::conjugate::get_irrealis_form;
+/// use buchikun::ja::verb::infer_conjugation_type::ConjugationType;
+/// use buchikun::ja::verb::get_irrealis_form::get_irrealis_form;
 ///
 /// assert_eq!(get_irrealis_form("書く", ConjugationType::Godan), Ok("書か".to_string()));
 /// ```
@@ -93,7 +93,7 @@ pub fn get_irrealis_form(verb: &str, conjugation: ConjugationType) -> Result<Str
 #[macro_export]
 macro_rules! get_irrealis_form {
     ($verb:expr) => {
-        $crate::ja::verb::guess_conjugation_type($verb)
+        $crate::ja::verb::infer_conjugation_type($verb)
             .and_then(|c| $crate::ja::verb::get_irrealis_form($verb, c))
     };
     ($verb:expr, $conj:expr) => {
