@@ -1,8 +1,8 @@
 pub mod infer_conjugation_type;
 pub use infer_conjugation_type::{ConjugationType, VerbError, infer_conjugation_type};
 
-pub mod get_irrealis_form;
-pub use get_irrealis_form::get_irrealis_form;
+pub mod irrealis_form;
+pub use irrealis_form::irrealis_form;
 
-pub mod get_continuative_form;
-pub use get_continuative_form::get_continuative_form;
+pub mod continuative_form;
+pub use continuative_form::continuative_form;
