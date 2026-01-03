@@ -12,15 +12,20 @@ use super::suggest_conjugation_type::{ConjugationType, VerbError};
 ///
 /// # Examples
 ///
+/// Use as a function:
 /// ```
 /// use buchikun::ja::verb::suggest_conjugation_type::ConjugationType;
 /// use buchikun::ja::verb::conjugate::get_irrealis_form;
 ///
 /// assert_eq!(get_irrealis_form("書く", ConjugationType::Godan), Ok("書か".to_string()));
-/// assert_eq!(get_irrealis_form("見る", ConjugationType::KamiIchidan), Ok("見".to_string()));
-/// assert_eq!(get_irrealis_form("食べる", ConjugationType::ShimoIchidan), Ok("食べ".to_string()));
-/// assert_eq!(get_irrealis_form("する", ConjugationType::Sahen), Ok("し".to_string()));
-/// assert_eq!(get_irrealis_form("来る", ConjugationType::Kahen), Ok("こ".to_string()));
+/// ```
+///
+/// Use as a macro (supports omitting conjugation type):
+/// ```
+/// use buchikun::get_irrealis_form; // Macro export at crate root
+///
+/// assert_eq!(get_irrealis_form!("書く"), Ok("書か".to_string()));
+/// assert_eq!(get_irrealis_form!("食べる"), Ok("食べ".to_string()));
 /// ```
 pub fn get_irrealis_form(verb: &str, conjugation: ConjugationType) -> Result<String, VerbError> {
     if verb.is_empty() {
@@ -84,6 +89,18 @@ pub fn get_irrealis_form(verb: &str, conjugation: ConjugationType) -> Result<Str
     }
 }
 
+/// Macro to get irrealis form, optionally inferring conjugation type.
+#[macro_export]
+macro_rules! get_irrealis_form {
+    ($verb:expr) => {
+        $crate::ja::verb::suggest_conjugation_type($verb)
+            .and_then(|c| $crate::ja::verb::get_irrealis_form($verb, c))
+    };
+    ($verb:expr, $conj:expr) => {
+        $crate::ja::verb::get_irrealis_form($verb, $conj)
+    };
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -137,6 +154,20 @@ mod tests {
         assert_eq!(
             get_irrealis_form("来る", ConjugationType::Kahen),
             Ok("こ".to_string())
+        );
+    }
+
+    #[test]
+    fn test_irrealis_macro() {
+        // Test macro usage with inferred type
+        assert_eq!(get_irrealis_form!("書く"), Ok("書か".to_string()));
+        assert_eq!(get_irrealis_form!("食べる"), Ok("食べ".to_string()));
+        assert_eq!(get_irrealis_form!("する"), Ok("し".to_string()));
+
+        // Explicit type
+        assert_eq!(
+            get_irrealis_form!("書く", ConjugationType::Godan),
+            Ok("書か".to_string())
         );
     }
 
