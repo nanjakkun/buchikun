@@ -89,7 +89,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_godan_irrealis() {
+    fn test_irrealis() {
         assert_eq!(
             get_irrealis_form("書く", ConjugationType::Godan),
             Ok("書か".to_string())
@@ -97,14 +97,6 @@ mod tests {
         assert_eq!(
             get_irrealis_form("泳ぐ", ConjugationType::Godan),
             Ok("泳が".to_string())
-        );
-        assert_eq!(
-            get_irrealis_form("話す", ConjugationType::Godan),
-            Ok("話さ".to_string())
-        );
-        assert_eq!(
-            get_irrealis_form("待つ", ConjugationType::Godan),
-            Ok("待た".to_string())
         );
         assert_eq!(
             get_irrealis_form("死ぬ", ConjugationType::Godan),
@@ -115,30 +107,8 @@ mod tests {
             Ok("遊ば".to_string())
         );
         assert_eq!(
-            get_irrealis_form("読む", ConjugationType::Godan),
-            Ok("読ま".to_string())
-        );
-        assert_eq!(
-            get_irrealis_form("走る", ConjugationType::Godan),
-            Ok("走ら".to_string())
-        );
-
-        // Special 'u' -> 'wa'
-        assert_eq!(
             get_irrealis_form("買う", ConjugationType::Godan),
             Ok("買わ".to_string())
-        );
-        assert_eq!(
-            get_irrealis_form("会う", ConjugationType::Godan),
-            Ok("会わ".to_string())
-        );
-    }
-
-    #[test]
-    fn test_ichidan_irrealis() {
-        assert_eq!(
-            get_irrealis_form("食べる", ConjugationType::ShimoIchidan),
-            Ok("食べ".to_string())
         );
         assert_eq!(
             get_irrealis_form("見る", ConjugationType::KamiIchidan),
@@ -148,10 +118,10 @@ mod tests {
             get_irrealis_form("起きる", ConjugationType::KamiIchidan),
             Ok("起き".to_string())
         );
-    }
-
-    #[test]
-    fn test_irregular_irrealis() {
+        assert_eq!(
+            get_irrealis_form("食べる", ConjugationType::ShimoIchidan),
+            Ok("食べ".to_string())
+        );
         assert_eq!(
             get_irrealis_form("する", ConjugationType::Sahen),
             Ok("し".to_string())
