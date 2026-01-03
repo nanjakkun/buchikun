@@ -25,7 +25,7 @@ pub enum VerbError {
 /// # Examples
 ///
 /// ```
-/// use buchikun::ja::suggest_conjugation_type::{suggest_conjugation_type, ConjugationType};
+/// use buchikun::ja::verb::{suggest_conjugation_type, ConjugationType};
 ///
 /// assert_eq!(suggest_conjugation_type("書く"), Ok(ConjugationType::Godan));
 /// assert_eq!(suggest_conjugation_type("食べる"), Ok(ConjugationType::ShimoIchidan));
