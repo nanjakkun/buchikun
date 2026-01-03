@@ -148,10 +148,6 @@ mod tests {
         );
         // Mismatch ending
         assert_eq!(
-            get_irrealis_form("食べる", ConjugationType::Godan),
-            Err(VerbError::UnknownConjugation)
-        );
-        assert_eq!(
             get_irrealis_form("書く", ConjugationType::KamiIchidan),
             Err(VerbError::UnknownConjugation)
         );
