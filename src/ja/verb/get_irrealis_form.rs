@@ -35,9 +35,7 @@ pub fn get_irrealis_form(verb: &str, conjugation: ConjugationType) -> Result<Str
     let chars: Vec<char> = verb.chars().collect();
     let len = chars.len();
 
-    // Basic validity check
     if len < 1 {
-        // Should be caught by is_empty, but just in case
         return Err(VerbError::NotAVerb);
     }
 
