@@ -25,16 +25,16 @@ pub enum VerbError {
 /// # Examples
 ///
 /// ```
-/// use buchikun::ja::verb::{guess_conjugation_type, ConjugationType};
+/// use buchikun::ja::verb::{infer_conjugation_type, ConjugationType};
 ///
-/// assert_eq!(guess_conjugation_type("書く"), Ok(ConjugationType::Godan));
-/// assert_eq!(guess_conjugation_type("食べる"), Ok(ConjugationType::ShimoIchidan));
-/// assert_eq!(guess_conjugation_type("見る"), Ok(ConjugationType::KamiIchidan));
-/// assert_eq!(guess_conjugation_type("する"), Ok(ConjugationType::Sahen));
-/// assert_eq!(guess_conjugation_type("来る"), Ok(ConjugationType::Kahen));
+/// assert_eq!(infer_conjugation_type("書く"), Ok(ConjugationType::Godan));
+/// assert_eq!(infer_conjugation_type("食べる"), Ok(ConjugationType::ShimoIchidan));
+/// assert_eq!(infer_conjugation_type("見る"), Ok(ConjugationType::KamiIchidan));
+/// assert_eq!(infer_conjugation_type("する"), Ok(ConjugationType::Sahen));
+/// assert_eq!(infer_conjugation_type("来る"), Ok(ConjugationType::Kahen));
 /// ```
 /// ```
-pub fn guess_conjugation_type(verb: &str) -> Result<ConjugationType, VerbError> {
+pub fn infer_conjugation_type(verb: &str) -> Result<ConjugationType, VerbError> {
     const GODAN_EXCEPTIONS: &[&str] = &[
         "入る",
         "要る",
@@ -155,31 +155,31 @@ mod tests {
 
     #[test]
     fn test_godan_basic() {
-        assert_eq!(guess_conjugation_type("書く"), Ok(ConjugationType::Godan));
-        assert_eq!(guess_conjugation_type("泳ぐ"), Ok(ConjugationType::Godan));
-        assert_eq!(guess_conjugation_type("話す"), Ok(ConjugationType::Godan));
-        assert_eq!(guess_conjugation_type("待つ"), Ok(ConjugationType::Godan));
-        assert_eq!(guess_conjugation_type("死ぬ"), Ok(ConjugationType::Godan));
-        assert_eq!(guess_conjugation_type("遊ぶ"), Ok(ConjugationType::Godan));
-        assert_eq!(guess_conjugation_type("読む"), Ok(ConjugationType::Godan));
-        assert_eq!(guess_conjugation_type("買う"), Ok(ConjugationType::Godan));
+        assert_eq!(infer_conjugation_type("書く"), Ok(ConjugationType::Godan));
+        assert_eq!(infer_conjugation_type("泳ぐ"), Ok(ConjugationType::Godan));
+        assert_eq!(infer_conjugation_type("話す"), Ok(ConjugationType::Godan));
+        assert_eq!(infer_conjugation_type("待つ"), Ok(ConjugationType::Godan));
+        assert_eq!(infer_conjugation_type("死ぬ"), Ok(ConjugationType::Godan));
+        assert_eq!(infer_conjugation_type("遊ぶ"), Ok(ConjugationType::Godan));
+        assert_eq!(infer_conjugation_type("読む"), Ok(ConjugationType::Godan));
+        assert_eq!(infer_conjugation_type("買う"), Ok(ConjugationType::Godan));
 
         // Godan ending in ru (a/u/o sound)
-        assert_eq!(guess_conjugation_type("終わる"), Ok(ConjugationType::Godan)); // wa-ru
-        assert_eq!(guess_conjugation_type("作る"), Ok(ConjugationType::Godan)); // ku-ru
-        assert_eq!(guess_conjugation_type("登る"), Ok(ConjugationType::Godan)); // bo-ru
+        assert_eq!(infer_conjugation_type("終わる"), Ok(ConjugationType::Godan)); // wa-ru
+        assert_eq!(infer_conjugation_type("作る"), Ok(ConjugationType::Godan)); // ku-ru
+        assert_eq!(infer_conjugation_type("登る"), Ok(ConjugationType::Godan)); // bo-ru
     }
 
     #[test]
     fn test_godan_exceptions() {
-        assert_eq!(guess_conjugation_type("走る"), Ok(ConjugationType::Godan));
-        assert_eq!(guess_conjugation_type("帰る"), Ok(ConjugationType::Godan));
-        assert_eq!(guess_conjugation_type("入る"), Ok(ConjugationType::Godan));
-        assert_eq!(guess_conjugation_type("切る"), Ok(ConjugationType::Godan));
-        assert_eq!(guess_conjugation_type("知る"), Ok(ConjugationType::Godan));
-        assert_eq!(guess_conjugation_type("要る"), Ok(ConjugationType::Godan));
-        assert_eq!(guess_conjugation_type("喋る"), Ok(ConjugationType::Godan));
-        assert_eq!(guess_conjugation_type("減る"), Ok(ConjugationType::Godan));
+        assert_eq!(infer_conjugation_type("走る"), Ok(ConjugationType::Godan));
+        assert_eq!(infer_conjugation_type("帰る"), Ok(ConjugationType::Godan));
+        assert_eq!(infer_conjugation_type("入る"), Ok(ConjugationType::Godan));
+        assert_eq!(infer_conjugation_type("切る"), Ok(ConjugationType::Godan));
+        assert_eq!(infer_conjugation_type("知る"), Ok(ConjugationType::Godan));
+        assert_eq!(infer_conjugation_type("要る"), Ok(ConjugationType::Godan));
+        assert_eq!(infer_conjugation_type("喋る"), Ok(ConjugationType::Godan));
+        assert_eq!(infer_conjugation_type("減る"), Ok(ConjugationType::Godan));
     }
 
     #[test]
@@ -204,7 +204,7 @@ mod tests {
         ];
         for v in kami_ichidan_verbs {
             assert_eq!(
-                guess_conjugation_type(v),
+                infer_conjugation_type(v),
                 Ok(ConjugationType::KamiIchidan),
                 "Failed for {}",
                 v
@@ -244,7 +244,7 @@ mod tests {
         ];
         for v in shimo_ichidan_verbs {
             assert_eq!(
-                guess_conjugation_type(v),
+                infer_conjugation_type(v),
                 Ok(ConjugationType::ShimoIchidan),
                 "Failed for {}",
                 v
@@ -254,19 +254,19 @@ mod tests {
 
     #[test]
     fn test_irregulars() {
-        assert_eq!(guess_conjugation_type("する"), Ok(ConjugationType::Sahen));
+        assert_eq!(infer_conjugation_type("する"), Ok(ConjugationType::Sahen));
         assert_eq!(
-            guess_conjugation_type("勉強する"),
+            infer_conjugation_type("勉強する"),
             Ok(ConjugationType::Sahen)
         );
-        assert_eq!(guess_conjugation_type("くる"), Ok(ConjugationType::Kahen));
-        assert_eq!(guess_conjugation_type("来る"), Ok(ConjugationType::Kahen));
+        assert_eq!(infer_conjugation_type("くる"), Ok(ConjugationType::Kahen));
+        assert_eq!(infer_conjugation_type("来る"), Ok(ConjugationType::Kahen));
     }
 
     #[test]
     fn test_errors() {
-        assert_eq!(guess_conjugation_type(""), Err(VerbError::NotAVerb));
-        assert_eq!(guess_conjugation_type("あ"), Err(VerbError::NotAVerb));
-        assert_eq!(guess_conjugation_type("リンゴ"), Err(VerbError::NotAVerb));
+        assert_eq!(infer_conjugation_type(""), Err(VerbError::NotAVerb));
+        assert_eq!(infer_conjugation_type("あ"), Err(VerbError::NotAVerb));
+        assert_eq!(infer_conjugation_type("リンゴ"), Err(VerbError::NotAVerb));
     }
 }
