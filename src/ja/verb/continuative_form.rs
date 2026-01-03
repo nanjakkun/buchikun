@@ -15,22 +15,19 @@ use super::infer_conjugation_type::{ConjugationType, VerbError};
 /// Use as a function:
 /// ```
 /// use buchikun::ja::verb::infer_conjugation_type::ConjugationType;
-/// use buchikun::ja::verb::get_continuative_form::get_continuative_form;
+/// use buchikun::ja::verb::continuative_form::continuative_form;
 ///
-/// assert_eq!(get_continuative_form("書く", ConjugationType::Godan), Ok("書き".to_string()));
+/// assert_eq!(continuative_form("書く", ConjugationType::Godan), Ok("書き".to_string()));
 /// ```
 ///
 /// Use as a macro (supports omitting conjugation type):
 /// ```
-/// use buchikun::get_continuative_form; // Macro export at crate root
+/// use buchikun::continuative_form; // Macro export at crate root
 ///
-/// assert_eq!(get_continuative_form!("書く"), Ok("書き".to_string()));
-/// assert_eq!(get_continuative_form!("食べる"), Ok("食べ".to_string()));
+/// assert_eq!(continuative_form!("書く"), Ok("書き".to_string()));
+/// assert_eq!(continuative_form!("食べる"), Ok("食べ".to_string()));
 /// ```
-pub fn get_continuative_form(
-    verb: &str,
-    conjugation: ConjugationType,
-) -> Result<String, VerbError> {
+pub fn continuative_form(verb: &str, conjugation: ConjugationType) -> Result<String, VerbError> {
     if verb.is_empty() {
         return Err(VerbError::NotAVerb);
     }
@@ -91,13 +88,13 @@ pub fn get_continuative_form(
 
 /// Macro to get continuative form, optionally inferring conjugation type.
 #[macro_export]
-macro_rules! get_continuative_form {
+macro_rules! continuative_form {
     ($verb:expr) => {
         $crate::ja::verb::infer_conjugation_type($verb)
-            .and_then(|c| $crate::ja::verb::get_continuative_form($verb, c))
+            .and_then(|c| $crate::ja::verb::continuative_form::continuative_form($verb, c))
     };
     ($verb:expr, $conj:expr) => {
-        $crate::ja::verb::get_continuative_form($verb, $conj)
+        $crate::ja::verb::continuative_form::continuative_form($verb, $conj)
     };
 }
 
@@ -108,59 +105,59 @@ mod tests {
     #[test]
     fn test_continuative() {
         assert_eq!(
-            get_continuative_form("書く", ConjugationType::Godan),
+            continuative_form("書く", ConjugationType::Godan),
             Ok("書き".to_string())
         );
         assert_eq!(
-            get_continuative_form("泳ぐ", ConjugationType::Godan),
+            continuative_form("泳ぐ", ConjugationType::Godan),
             Ok("泳ぎ".to_string())
         );
         assert_eq!(
-            get_continuative_form("死ぬ", ConjugationType::Godan),
+            continuative_form("死ぬ", ConjugationType::Godan),
             Ok("死に".to_string())
         );
         assert_eq!(
-            get_continuative_form("遊ぶ", ConjugationType::Godan),
+            continuative_form("遊ぶ", ConjugationType::Godan),
             Ok("遊び".to_string())
         );
         assert_eq!(
-            get_continuative_form("買う", ConjugationType::Godan),
+            continuative_form("買う", ConjugationType::Godan),
             Ok("買い".to_string())
         );
         assert_eq!(
-            get_continuative_form("見る", ConjugationType::KamiIchidan),
+            continuative_form("見る", ConjugationType::KamiIchidan),
             Ok("見".to_string())
         );
         assert_eq!(
-            get_continuative_form("起きる", ConjugationType::KamiIchidan),
+            continuative_form("起きる", ConjugationType::KamiIchidan),
             Ok("起き".to_string())
         );
         assert_eq!(
-            get_continuative_form("食べる", ConjugationType::ShimoIchidan),
+            continuative_form("食べる", ConjugationType::ShimoIchidan),
             Ok("食べ".to_string())
         );
         assert_eq!(
-            get_continuative_form("する", ConjugationType::Sahen),
+            continuative_form("する", ConjugationType::Sahen),
             Ok("し".to_string())
         );
         assert_eq!(
-            get_continuative_form("勉強する", ConjugationType::Sahen),
+            continuative_form("勉強する", ConjugationType::Sahen),
             Ok("勉強し".to_string())
         );
         assert_eq!(
-            get_continuative_form("くる", ConjugationType::Kahen),
+            continuative_form("くる", ConjugationType::Kahen),
             Ok("き".to_string())
         );
         assert_eq!(
-            get_continuative_form("来る", ConjugationType::Kahen),
+            continuative_form("来る", ConjugationType::Kahen),
             Ok("き".to_string())
         );
     }
 
     #[test]
     fn test_continuative_macro() {
-        assert_eq!(get_continuative_form!("書く"), Ok("書き".to_string()));
-        assert_eq!(get_continuative_form!("食べる"), Ok("食べ".to_string()));
-        assert_eq!(get_continuative_form!("する"), Ok("し".to_string()));
+        assert_eq!(continuative_form!("書く"), Ok("書き".to_string()));
+        assert_eq!(continuative_form!("食べる"), Ok("食べ".to_string()));
+        assert_eq!(continuative_form!("する"), Ok("し".to_string()));
     }
 }

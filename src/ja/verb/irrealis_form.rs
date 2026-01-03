@@ -15,19 +15,19 @@ use super::infer_conjugation_type::{ConjugationType, VerbError};
 /// Use as a function:
 /// ```
 /// use buchikun::ja::verb::infer_conjugation_type::ConjugationType;
-/// use buchikun::ja::verb::get_irrealis_form::get_irrealis_form;
+/// use buchikun::ja::verb::irrealis_form::irrealis_form;
 ///
-/// assert_eq!(get_irrealis_form("書く", ConjugationType::Godan), Ok("書か".to_string()));
+/// assert_eq!(irrealis_form("書く", ConjugationType::Godan), Ok("書か".to_string()));
 /// ```
 ///
 /// Use as a macro (supports omitting conjugation type):
 /// ```
-/// use buchikun::get_irrealis_form; // Macro export at crate root
+/// use buchikun::irrealis_form; // Macro export at crate root
 ///
-/// assert_eq!(get_irrealis_form!("書く"), Ok("書か".to_string()));
-/// assert_eq!(get_irrealis_form!("食べる"), Ok("食べ".to_string()));
+/// assert_eq!(irrealis_form!("書く"), Ok("書か".to_string()));
+/// assert_eq!(irrealis_form!("食べる"), Ok("食べ".to_string()));
 /// ```
-pub fn get_irrealis_form(verb: &str, conjugation: ConjugationType) -> Result<String, VerbError> {
+pub fn irrealis_form(verb: &str, conjugation: ConjugationType) -> Result<String, VerbError> {
     if verb.is_empty() {
         return Err(VerbError::NotAVerb);
     }
@@ -89,13 +89,13 @@ pub fn get_irrealis_form(verb: &str, conjugation: ConjugationType) -> Result<Str
 
 /// Macro to get irrealis form, optionally inferring conjugation type.
 #[macro_export]
-macro_rules! get_irrealis_form {
+macro_rules! irrealis_form {
     ($verb:expr) => {
         $crate::ja::verb::infer_conjugation_type($verb)
-            .and_then(|c| $crate::ja::verb::get_irrealis_form($verb, c))
+            .and_then(|c| $crate::ja::verb::irrealis_form::irrealis_form($verb, c))
     };
     ($verb:expr, $conj:expr) => {
-        $crate::ja::verb::get_irrealis_form($verb, $conj)
+        $crate::ja::verb::irrealis_form::irrealis_form($verb, $conj)
     };
 }
 
@@ -106,51 +106,51 @@ mod tests {
     #[test]
     fn test_irrealis() {
         assert_eq!(
-            get_irrealis_form("書く", ConjugationType::Godan),
+            irrealis_form("書く", ConjugationType::Godan),
             Ok("書か".to_string())
         );
         assert_eq!(
-            get_irrealis_form("泳ぐ", ConjugationType::Godan),
+            irrealis_form("泳ぐ", ConjugationType::Godan),
             Ok("泳が".to_string())
         );
         assert_eq!(
-            get_irrealis_form("死ぬ", ConjugationType::Godan),
+            irrealis_form("死ぬ", ConjugationType::Godan),
             Ok("死な".to_string())
         );
         assert_eq!(
-            get_irrealis_form("遊ぶ", ConjugationType::Godan),
+            irrealis_form("遊ぶ", ConjugationType::Godan),
             Ok("遊ば".to_string())
         );
         assert_eq!(
-            get_irrealis_form("買う", ConjugationType::Godan),
+            irrealis_form("買う", ConjugationType::Godan),
             Ok("買わ".to_string())
         );
         assert_eq!(
-            get_irrealis_form("見る", ConjugationType::KamiIchidan),
+            irrealis_form("見る", ConjugationType::KamiIchidan),
             Ok("見".to_string())
         );
         assert_eq!(
-            get_irrealis_form("起きる", ConjugationType::KamiIchidan),
+            irrealis_form("起きる", ConjugationType::KamiIchidan),
             Ok("起き".to_string())
         );
         assert_eq!(
-            get_irrealis_form("食べる", ConjugationType::ShimoIchidan),
+            irrealis_form("食べる", ConjugationType::ShimoIchidan),
             Ok("食べ".to_string())
         );
         assert_eq!(
-            get_irrealis_form("する", ConjugationType::Sahen),
+            irrealis_form("する", ConjugationType::Sahen),
             Ok("し".to_string())
         );
         assert_eq!(
-            get_irrealis_form("勉強する", ConjugationType::Sahen),
+            irrealis_form("勉強する", ConjugationType::Sahen),
             Ok("勉強し".to_string())
         );
         assert_eq!(
-            get_irrealis_form("くる", ConjugationType::Kahen),
+            irrealis_form("くる", ConjugationType::Kahen),
             Ok("こ".to_string())
         );
         assert_eq!(
-            get_irrealis_form("来る", ConjugationType::Kahen),
+            irrealis_form("来る", ConjugationType::Kahen),
             Ok("こ".to_string())
         );
     }
@@ -158,13 +158,13 @@ mod tests {
     #[test]
     fn test_irrealis_macro() {
         // Test macro usage with inferred type
-        assert_eq!(get_irrealis_form!("書く"), Ok("書か".to_string()));
-        assert_eq!(get_irrealis_form!("食べる"), Ok("食べ".to_string()));
-        assert_eq!(get_irrealis_form!("する"), Ok("し".to_string()));
+        assert_eq!(irrealis_form!("書く"), Ok("書か".to_string()));
+        assert_eq!(irrealis_form!("食べる"), Ok("食べ".to_string()));
+        assert_eq!(irrealis_form!("する"), Ok("し".to_string()));
 
         // Explicit type
         assert_eq!(
-            get_irrealis_form!("書く", ConjugationType::Godan),
+            irrealis_form!("書く", ConjugationType::Godan),
             Ok("書か".to_string())
         );
     }
@@ -172,12 +172,12 @@ mod tests {
     #[test]
     fn test_irrealis_errors() {
         assert_eq!(
-            get_irrealis_form("", ConjugationType::Godan),
+            irrealis_form("", ConjugationType::Godan),
             Err(VerbError::NotAVerb)
         );
         // Mismatch ending
         assert_eq!(
-            get_irrealis_form("書く", ConjugationType::KamiIchidan),
+            irrealis_form("書く", ConjugationType::KamiIchidan),
             Err(VerbError::UnknownConjugation)
         );
     }
