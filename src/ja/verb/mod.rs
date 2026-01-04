@@ -6,3 +6,6 @@ pub use irrealis_form::irrealis_form;
 
 pub mod continuative_form;
 pub use continuative_form::continuative_form;
+
+pub mod negative;
+pub use negative::negative;
