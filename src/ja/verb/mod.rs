@@ -4,8 +4,11 @@ pub use infer_conjugation_type::{ConjugationType, VerbError, infer_conjugation_t
 pub mod irrealis;
 pub use irrealis::irrealis;
 
-pub mod continuative_form;
-pub use continuative_form::continuative_form;
+pub mod continuative_present;
+pub use continuative_present::continuative_present;
+
+pub mod continuative_past;
+pub use continuative_past::continuative_past;
 
 pub mod negative;
 pub use negative::negative;
