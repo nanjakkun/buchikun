@@ -1,8 +1,8 @@
 use super::infer_conjugation_type::{ConjugationType, VerbError};
 
-/// Conjugate a Japanese verb to its Negative form (Uchikeshikei
+/// Conjugate a Japanese verb to its Negative form (Uchikeshikei).
 ///
-/// Returns the full negative form by appending "ない" (nai) to the irrealis stem.
+/// Returns the full negative form by appending "ない" (nai) to the negative stem.
 /// e.g.
 /// Godan: "書く" -> "書かない" (kaka-nai)
 /// KamiIchidan: "見る" -> "見ない" (mi-nai)
@@ -32,8 +32,58 @@ pub fn negative(verb: &str, conjugation: ConjugationType) -> Result<String, Verb
         return Err(VerbError::NotAVerb);
     }
 
-    // Reuse the irrealis_form logic to get the stem
-    let stem = super::irrealis_form::irrealis_form(verb, conjugation)?;
+    let chars: Vec<char> = verb.chars().collect();
+    let len = chars.len();
+
+    if len < 1 {
+        return Err(VerbError::NotAVerb);
+    }
+
+    let stem = match conjugation {
+        ConjugationType::Godan => {
+            let last_char = chars[len - 1];
+            let base = &verb[..verb.len() - last_char.len_utf8()];
+
+            let new_ending = match last_char {
+                'う' => "わ",
+                'く' => "か",
+                'ぐ' => "が",
+                'す' => "さ",
+                'つ' => "た",
+                'ぬ' => "な",
+                'ふ' => "は",
+                'ぶ' => "ば",
+                'む' => "ま",
+                'る' => "ら",
+                _ => return Err(VerbError::UnknownConjugation),
+            };
+            format!("{}{}", base, new_ending)
+        }
+        ConjugationType::KamiIchidan | ConjugationType::ShimoIchidan => {
+            if !verb.ends_with('る') {
+                return Err(VerbError::UnknownConjugation);
+            }
+            verb[..verb.len() - 'る'.len_utf8()].to_string()
+        }
+        ConjugationType::Sahen => {
+            if verb == "する" {
+                "し".to_string()
+            } else if verb.ends_with("する") {
+                let base = &verb[..verb.len() - "する".len()];
+                format!("{}し", base)
+            } else {
+                return Err(VerbError::UnknownConjugation);
+            }
+        }
+        ConjugationType::Kahen => {
+            if verb == "くる" || verb == "来る" {
+                "こ".to_string()
+            } else {
+                return Err(VerbError::UnknownConjugation);
+            }
+        }
+    };
+
     Ok(format!("{}ない", stem))
 }
 
