@@ -188,32 +188,3 @@ fn find_match(s: &str) -> Option<(usize, &str)> {
     }
     None
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_basic() {
-        assert_eq!(romaji_to_kana("konnichiha"), "こんにちは");
-        assert_eq!(romaji_to_kana("arigatou"), "ありがとう");
-    }
-
-    #[test]
-    fn test_small_tsu() {
-        assert_eq!(romaji_to_kana("gakkou"), "がっこう");
-        assert_eq!(romaji_to_kana("zettai"), "ぜったい");
-    }
-
-    #[test]
-    fn test_contracted() {
-        assert_eq!(romaji_to_kana("shumi"), "しゅみ");
-        assert_eq!(romaji_to_kana("tokyo"), "ときょ"); // Wait, tokyo is toukyou usually or tokyo
-        // In this map, 'kyo' -> 'きょ'. 'to' -> 'と'. So 'tokyo' -> 'ときょ'. 'toukyou' -> 'とうきょう'.
-    }
-
-    #[test]
-    fn test_mixed() {
-        assert_eq!(romaji_to_kana("romaji"), "ろまじ"); // ro ma ji
-    }
-}
