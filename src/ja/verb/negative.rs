@@ -2,13 +2,13 @@ use super::infer_conjugation_type::{ConjugationType, VerbError};
 
 /// Conjugate a Japanese verb to its Negative form (Uchikeshikei).
 ///
-/// Returns the full negative form by appending "ない" (nai) to the negative stem.
+/// Returns the stem for the negative form (nai).
 /// e.g.
-/// Godan: "書く" -> "書かない" (kaka-nai)
-/// KamiIchidan: "見る" -> "見ない" (mi-nai)
-/// ShimoIchidan: "食べる" -> "食べない" (tabe-nai)
-/// Sahen: "する" -> "しない" (shi-nai)
-/// Kahen: "くる" | "来る" -> "こない" (ko-nai)
+/// Godan: "書く" -> "書か" (kaka)
+/// KamiIchidan: "見る" -> "見" (mi)
+/// ShimoIchidan: "食べる" -> "食べ" (tabe)
+/// Sahen: "する" -> "し" (shi)
+/// Kahen: "くる" | "来る" -> "こ" (ko)
 ///
 /// # Examples
 ///
@@ -17,15 +17,15 @@ use super::infer_conjugation_type::{ConjugationType, VerbError};
 /// use buchikun::ja::verb::infer_conjugation_type::ConjugationType;
 /// use buchikun::ja::verb::negative::negative;
 ///
-/// assert_eq!(negative("書く", ConjugationType::Godan), Ok("書かない".to_string()));
+/// assert_eq!(negative("書く", ConjugationType::Godan), Ok("書か".to_string()));
 /// ```
 ///
 /// Use as a macro (supports omitting conjugation type):
 /// ```
 /// use buchikun::negative; // Macro export at crate root
 ///
-/// assert_eq!(negative!("書く"), Ok("書かない".to_string()));
-/// assert_eq!(negative!("食べる"), Ok("食べない".to_string()));
+/// assert_eq!(negative!("書く"), Ok("書か".to_string()));
+/// assert_eq!(negative!("食べる"), Ok("食べ".to_string()));
 /// ```
 pub fn negative(verb: &str, conjugation: ConjugationType) -> Result<String, VerbError> {
     if verb.is_empty() {
@@ -84,7 +84,7 @@ pub fn negative(verb: &str, conjugation: ConjugationType) -> Result<String, Verb
         }
     };
 
-    Ok(format!("{}ない", stem))
+    Ok(stem)
 }
 
 /// Macro to get negative form, optionally inferring conjugation type.

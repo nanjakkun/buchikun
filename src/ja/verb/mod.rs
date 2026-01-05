@@ -12,3 +12,6 @@ pub use continuative_past::continuative_past;
 
 pub mod negative;
 pub use negative::negative;
+
+pub mod negative2;
+pub use negative2::negative2;

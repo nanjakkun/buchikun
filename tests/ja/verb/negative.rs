@@ -5,29 +5,29 @@ use buchikun::negative;
 fn test_negative() {
     assert_eq!(
         negative("書く", ConjugationType::Godan),
-        Ok("書かない".to_string())
+        Ok("書か".to_string())
     );
     assert_eq!(
         negative("見る", ConjugationType::KamiIchidan),
-        Ok("見ない".to_string())
+        Ok("見".to_string())
     );
     assert_eq!(
         negative("食べる", ConjugationType::ShimoIchidan),
-        Ok("食べない".to_string())
+        Ok("食べ".to_string())
     );
     assert_eq!(
         negative("する", ConjugationType::Sahen),
-        Ok("しない".to_string())
+        Ok("し".to_string())
     );
     assert_eq!(
         negative("来る", ConjugationType::Kahen),
-        Ok("こない".to_string())
+        Ok("こ".to_string())
     );
 }
 
 #[test]
 fn test_negative_macro() {
-    assert_eq!(negative!("書く"), Ok("書かない".to_string()));
-    assert_eq!(negative!("食べる"), Ok("食べない".to_string()));
-    assert_eq!(negative!("する"), Ok("しない".to_string()));
+    assert_eq!(negative!("書く"), Ok("書か".to_string()));
+    assert_eq!(negative!("食べる"), Ok("食べ".to_string()));
+    assert_eq!(negative!("する"), Ok("し".to_string()));
 }
