@@ -1,4 +1,5 @@
 pub mod attributive;
+pub mod conditional;
 pub mod continuative_past;
 pub mod continuative_present;
 pub mod infer_conjugation_type;
