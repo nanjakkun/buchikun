@@ -8,4 +8,5 @@ pub mod infer_conjugation_type;
 pub mod irrealis;
 pub mod negative;
 pub mod negative2;
+pub mod passive;
 pub mod terminal;
