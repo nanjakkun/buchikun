@@ -1,3 +1,5 @@
+use alloc::string::String;
+
 /// Convert Romaji to Hiragana.
 ///
 /// ローマ字をひらがなに変換します。

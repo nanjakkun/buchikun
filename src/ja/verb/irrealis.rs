@@ -1,4 +1,7 @@
 use super::infer_conjugation_type::{ConjugationType, VerbError};
+use alloc::format;
+use alloc::string::{String, ToString};
+use alloc::vec::Vec;
 
 /// Conjugate a Japanese verb to its Irrealis form (Mizenkei) for "u/you" connection.
 ///

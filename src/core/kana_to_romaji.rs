@@ -1,3 +1,6 @@
+use alloc::string::{String, ToString};
+use alloc::vec::Vec;
+
 /// Convert Katakana to Romaji (Hepburn system).
 ///
 /// ヘボン式でカタカナをローマ字に変換します。

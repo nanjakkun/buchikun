@@ -1,3 +1,5 @@
+use alloc::vec::Vec;
+
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub enum ConjugationType {
     Godan,        // 五段
