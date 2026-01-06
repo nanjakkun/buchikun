@@ -10,7 +10,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-buchikun = "0.2.0"
+buchikun = { git = "https://github.com/nanjakkun/buchikun", tag = "v0.2.0" }
 ```
 
 ## Usage
