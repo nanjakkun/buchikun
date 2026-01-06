@@ -1,4 +1,5 @@
 use super::infer_conjugation_type::{ConjugationType, VerbError};
+use alloc::string::{String, ToString};
 
 /// Conjugate a Japanese verb to its Terminal form (Shushikei).
 ///

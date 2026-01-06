@@ -1,5 +1,7 @@
 use super::infer_conjugation_type::{ConjugationType, VerbError};
 use super::negative;
+use alloc::format;
+use alloc::string::{String, ToString};
 
 /// Conjugate a Japanese verb to its Negative form (Uchikeshikei).
 ///
